@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Tarea1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CategoriaProductos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar" MaxLength="30" />
+    <Property Name="Descripcion" Type="nvarchar(max)" />
+    <Property Name="Precio" Type="int" />
+    <Property Name="Stock" Type="int" />
+    <Property Name="CategoriaID" Type="int" />
+    <Property Name="img" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="CategoriaID_fk">
+    <End Role="CategoriaProductos" Type="Self.CategoriaProductos" Multiplicity="0..1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaProductos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="CategoriaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Tarea1ModelStoreContainer">
+    <EntitySet Name="CategoriaProductos" EntityType="Self.CategoriaProductos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="CategoriaID_fk" Association="Self.CategoriaID_fk">
+      <End Role="CategoriaProductos" EntitySet="CategoriaProductos" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

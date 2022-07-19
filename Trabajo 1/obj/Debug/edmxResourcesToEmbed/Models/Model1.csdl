@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Tarea1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CategoriaProductos">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Producto" Relationship="Self.CategoriaID_fk" FromRole="CategoriaProductos" ToRole="Producto" />
+  </EntityType>
+  <EntityType Name="Producto">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Precio" Type="Int32" />
+    <Property Name="Stock" Type="Int32" />
+    <Property Name="CategoriaID" Type="Int32" />
+    <Property Name="img" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="CategoriaProductos" Relationship="Self.CategoriaID_fk" FromRole="Producto" ToRole="CategoriaProductos" />
+  </EntityType>
+  <Association Name="CategoriaID_fk">
+    <End Role="CategoriaProductos" Type="Self.CategoriaProductos" Multiplicity="0..1" />
+    <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CategoriaProductos">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Producto">
+        <PropertyRef Name="CategoriaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Tarea1Entities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CategoriaProductos" EntityType="Self.CategoriaProductos" />
+    <EntitySet Name="Producto" EntityType="Self.Producto" />
+    <AssociationSet Name="CategoriaID_fk" Association="Self.CategoriaID_fk">
+      <End Role="CategoriaProductos" EntitySet="CategoriaProductos" />
+      <End Role="Producto" EntitySet="Producto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
